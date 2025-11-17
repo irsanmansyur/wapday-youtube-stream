@@ -1,0 +1,14 @@
+{
+	"name": "youtube-download",
+	"version": "1.0.50",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "bun run --watch src/index.ts"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.3.2",
+		"bun-types": "latest",
+		"node-fetch": "^3.3.2"
+	},
+	"module": "index.js"
+}
