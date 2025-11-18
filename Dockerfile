@@ -4,8 +4,8 @@ WORKDIR /app
 # Salin package.json + lockfile
 COPY package.json bun.lock ./
 
-# Install semua dependencies (tanpa --production)
-RUN bun install
+# Install semua dependenci production saja
+RUN bun install --production --no-cache
 
 # Salin source
 COPY . .
