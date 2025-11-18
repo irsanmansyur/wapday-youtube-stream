@@ -10,5 +10,8 @@
 		"bun-types": "latest",
 		"node-fetch": "^3.3.2"
 	},
-	"module": "index.js"
+	"module": "index.js",
+	"dependencies": {
+		"@vreden/youtube_scraper": "^1.2.8"
+	}
 }

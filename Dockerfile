@@ -13,17 +13,12 @@ RUN bun build \
 	--outfile server \
 	index.ts
 
-FROM debian:bookworm-slim
-
-RUN apt-get update && \
-	apt-get install -y ffmpeg curl && \
-	curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
-	-o /usr/local/bin/yt-dlp && \
-	chmod +x /usr/local/bin/yt-dlp && \
-	apt-get clean && rm -rf /var/lib/apt/lists/*
+FROM gcr.io/distroless/base
 
 WORKDIR /app
+
 COPY --from=build /app/server server
 
-EXPOSE 3000
+ENV NODE_ENV=production
+
 CMD ["./server"]
