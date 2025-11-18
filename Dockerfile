@@ -1,24 +1,34 @@
 FROM oven/bun AS build
-
 WORKDIR /app
-COPY package.json ./
+
+# Salin package.json + lockfile
+COPY package.json bun.lock ./
+
+# Install semua dependencies (tanpa --production)
 RUN bun install
+
+# Salin source
 COPY . .
 
+
+# Build Bun bundle
 RUN bun build \
-	--compile \
+	--target bun \
 	--minify-whitespace \
 	--minify-syntax \
-	--target bun-linux-x64 \
-	--outfile server \
+	--outfile ./dist/index.js \
 	index.ts
 
-FROM gcr.io/distroless/base
 
+
+# ===== Runtime =====
+FROM oven/bun:alpine
 WORKDIR /app
 
-COPY --from=build /app/server server
+# Salin hasil build + node_modules + bun cache
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
 
 ENV NODE_ENV=production
 
-CMD ["./server"]
+CMD ["bun", "dist/index.js"]
